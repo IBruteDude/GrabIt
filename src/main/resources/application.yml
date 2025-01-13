@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: grabit
+  datasource:
+    url: jdbc:mysql://localhost:3306/grabit_db
+    username: grabit_usr
+    password: grabit_pwd
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.mysql.sql
+
+logging:
+  level:
+    '[org.springframework.security]': DEBUG
+    '[org.springframework.web]': DEBUG
+    # '[org.springframework]': DEBUG
+
+server:
+  address: localhost
+  # port: 8080
+
+  port: 8443 # needed for https
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.jks
+    key-store-password: grabit_pwd
+    key-password: grabit_pwd
