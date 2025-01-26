@@ -5,8 +5,11 @@ import com.grabit.entities.Authority;
 
 import lombok.AllArgsConstructor;
 
+
+
 @AllArgsConstructor
-public class SecurityAuthority implements GrantedAuthority {
+public class SecurityAuthority implements GrantedAuthority
+{
 
     private Authority authority;
 
