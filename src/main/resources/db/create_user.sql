@@ -1,4 +1,0 @@
-DROP USER IF EXISTS 'grabit_usr';
-CREATE USER IF NOT EXISTS 'grabit_usr'@'%' IDENTIFIED BY 'grabit_pwd';
-GRANT ALL PRIVILEGES ON *.* TO 'grabit_usr'@'%' WITH GRANT OPTION;
-CREATE DATABASE IF NOT EXISTS grabit_db;

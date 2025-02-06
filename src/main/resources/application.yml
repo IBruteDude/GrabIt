@@ -1,38 +1,14 @@
 spring:
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        hbm2ddl:
-          auto: none
-          '[generate_statistics]': true
   application:
     name: grabit
+  profiles:
+    active:
+    - ${SPRING_PROFILES_ACTIVE:test}
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  liquibase:
-    enabled: false
-    change-log: classpath:db/changelog/db.changelog-master.yaml
-
-logging:
-  level:
-    '[org.springframework.security]': DEBUG
-    '[org.springframework.web]': DEBUG
-    '[org.springframework.data]': DEBUG
-
-server:
-  # address: localhost
-  # port: 8080
-
-  port: 8443 # needed for https
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.jks
-    key-store-password: grabit_pwd
-    key-password: grabit_pwd
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect

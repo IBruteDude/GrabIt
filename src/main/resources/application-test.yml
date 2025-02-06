@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: ${TESTING_DATABASE_URL}
+  liquibase:
+    enabled: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        '[format_sql]': true
+        hbm2ddl:
+          '[generate_statistics]': true
+
+logging:
+  level:
+    '[com.grabit]': TRACE
+    '[org.hibernate.SQL]': TRACE
+    '[org.hibernate.orm.jdbc.bind]': TRACE
+    '[org.hibernate.type.descriptor.sql]': TRACE
+
+server:
+  address: localhost
+  port: 80

@@ -1,0 +1,69 @@
+databaseChangeLog:
+- changeSet:
+    id: 1738826499223-1
+    author: kamar (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: authority
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: username
+            type: VARCHAR(50)
+        tableName: authorities
+- changeSet:
+    id: 1738826499223-2
+    author: kamar (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: username
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+            name: enabled
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(500)
+        tableName: users
+- changeSet:
+    id: 1738826499223-3
+    author: kamar (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: username
+        indexName: FKhjuy9y4fd8v5m3klig05ktofg
+        tableName: authorities
+- changeSet:
+    id: 1738826499223-4
+    author: kamar (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: username
+        baseTableName: authorities
+        constraintName: FKhjuy9y4fd8v5m3klig05ktofg
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: RESTRICT
+        onUpdate: RESTRICT
+        referencedColumnNames: username
+        referencedTableName: users
+        validate: true
+
