@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GrabIt</title>
 </head>
 <body>
+	<h1 th:text="#{home.welcome}">
 	Home Sweet Home
+	</h1>
+    <p>
+        <a href="?lang=en">English</a> | 
+        <a href="?lang=ar">العربية</a>
+    </p>
 </body>
 </html>
