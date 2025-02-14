@@ -19,7 +19,7 @@ class UserAuthorityId implements Serializable {
     private String authority;
 }
 
-@Entity
+ @Entity
 @Table(
     name = "authorities",
     indexes = {@Index(name = "ix_auth_username", columnList = "username, authority", unique = true)},
