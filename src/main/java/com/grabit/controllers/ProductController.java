@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+     private ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
