@@ -2,52 +2,39 @@ package com.grabit.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-
-@Table (name="products")
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "products")
 @Getter
 @Setter
-public class Product {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class Product extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Column(name = "name", length = 50, unique = true, nullable = false)
+	String name;
 
-    @Column(name="name")
-    private String name;
-
-    @Column(name="price")
-    private double price;
-
-    @Column(name="discount")
-    private double discount;  // by percentage
-
-    @Column(name="units_in_order")
-    private int unitsInOrder;
-
-    @Column(name="units_in_stock")
-    private int unitsInStock;
-
-    @JoinColumn(
-            name = "category_id",
-            referencedColumnName = "id",
-            nullable = false
-    )
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Categories category;
-
-    @JoinColumn(
-            name = "supplier_id",
-            referencedColumnName = "id",
-            nullable = false
-    )
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Suppliers supplier;
+	@Column(name = "description", length = 500, unique = true, nullable = true)
+	String description;
 
 
+	@ManyToOne
+	@JoinColumn(name = "brand_id", nullable = false)
+	private Brand brand;
 
+	@ManyToOne
+	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+	private Category category;
+
+    @ManyToOne
+	@JoinColumns({
+		@JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false),
+		@JoinColumn(name = "supplier_username", referencedColumnName = "username", nullable = false)
+	})
+    private Supplier supplier;
 
 }

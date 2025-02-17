@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductDTO getProductById(Long id) {
+    public ProductDTO getProductById(UUID id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         return productMapper.toProductDTO(product);
     }
@@ -37,15 +38,17 @@ public class ProductService {
         return productMapper.toProductDTO(product);
     }
 
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    public ProductDTO updateProduct(UUID id, ProductDTO productDTO) {
+        /// TODO: change use of RuntimeException to a custom exception 
+        Product existingProduct = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
         existingProduct.setName(productDTO.getName());
-        existingProduct.setPrice(productDTO.getPrice());
+        existingProduct.setDescription(productDTO.getDescription());
         existingProduct = productRepository.save(existingProduct);
         return productMapper.toProductDTO(existingProduct);
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(UUID id) {
         productRepository.deleteById(id);
     }
 }
