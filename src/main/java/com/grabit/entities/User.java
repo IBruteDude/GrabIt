@@ -7,7 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = @Index(name = "ix_username", columnList = "username", unique = true))
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
@@ -18,7 +18,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-    @Id
     @Column(name = "username", length = 50, nullable = false, unique = true)
     private String username;
 
