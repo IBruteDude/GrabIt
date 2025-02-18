@@ -2,8 +2,6 @@ package com.grabit.config;
 
 import java.util.UUID;
 
-import javax.sql.DataSource;
-
 import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,14 +13,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
+import com.grabit.services.UserService;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration {
+
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http, DigestAuthenticationFilter digestAuthenticationFilter) throws Exception {
 		return http
@@ -43,8 +43,8 @@ public class WebSecurityConfiguration {
 	@Bean
 	@DependsOn("liquibase")
     @Profile("prod")
-	UserDetailsService productionUserDetailsService(DataSource datasource) {
-		return userDetailsService(datasource);
+	UserDetailsService productionUserDetailsService(UserService userService) {
+		return userDetailsService(userService);
 	}
 
 
@@ -53,19 +53,17 @@ public class WebSecurityConfiguration {
 	@DependsOn("entityManagerFactory")
     @Profile("test")
 	@Primary
-	UserDetailsService testingUserDetailsService(DataSource datasource) {
-		return userDetailsService(datasource);
+	UserDetailsService testingUserDetailsService(UserService userService) {
+		return userDetailsService(userService);
 	}
 
 
-	UserDetailsService userDetailsService(DataSource datasource) {
+	UserDetailsService userDetailsService(UserService manager) {
 		var admin = User
 				.withUsername("admin")
 				.password("{noop}admin")
-				.roles("USER", "ADMIN")
+				.roles( "GUEST", "CUSTOMER", "SUPPLIER", "SUPPORT_AGENT", "ANALYST", "ADMIN")
 				.build();
-
-		var manager = new JdbcUserDetailsManager(datasource);
 
 		if (!manager.userExists("admin"))
 			manager.createUser(admin);
