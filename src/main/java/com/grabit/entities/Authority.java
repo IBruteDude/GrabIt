@@ -4,21 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-@Value
-class UserAuthorityId implements Serializable {
-    private UUID id;
-    private User user;
-    private String authority;
-}
-
 @Entity
 @Table(
     name = "authorities",
-    indexes = {@Index(name = "ix_auth_username", columnList = "username, authority", unique = true)},
-    uniqueConstraints= {@UniqueConstraint(name = "unique_authority", columnNames = {"username", "authority"})}
+    indexes = @Index(name = "ix_auth_username", columnList = "user_id, authority", unique = true),
+    uniqueConstraints= @UniqueConstraint(name = "unique_authority", columnNames = {"user_id", "authority"})
 )
 @Getter
 @Setter
@@ -26,19 +16,13 @@ class UserAuthorityId implements Serializable {
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
-@IdClass(UserAuthorityId.class)
+@EqualsAndHashCode(callSuper = true, exclude = "user")
 public class Authority extends BaseEntity {
 
-    @Id
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
-        @JoinColumn(name = "user_username", referencedColumnName = "username", nullable = false)
-    })
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Id
     @Column(name = "authority", length = 50, nullable = false)
     private String authority;
 
