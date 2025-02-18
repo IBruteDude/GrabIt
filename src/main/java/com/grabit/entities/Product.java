@@ -31,10 +31,7 @@ public class Product extends BaseEntity {
 	private Category category;
 
     @ManyToOne
-	@JoinColumns({
-		@JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false),
-		@JoinColumn(name = "supplier_username", referencedColumnName = "username", nullable = false)
-	})
+	@JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
 }
