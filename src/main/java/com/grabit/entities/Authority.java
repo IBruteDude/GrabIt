@@ -42,4 +42,8 @@ public class Authority extends BaseEntity {
     @Column(name = "authority", length = 50, nullable = false)
     private String authority;
 
+    public static Authority of(User user, String authority) {
+        return new Authority(user, authority);
+    }
+
 }
