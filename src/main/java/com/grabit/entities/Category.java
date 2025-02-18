@@ -1,20 +1,10 @@
 package com.grabit.entities;
 
-import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-
-
-
-@Value
-class CategoryId implements Serializable {
-    private UUID id;
-}
 
 @Entity
 @Table(name = "categories")
@@ -25,7 +15,6 @@ class CategoryId implements Serializable {
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@IdClass(CategoryId.class)
 public class Category extends BaseEntity {
 
 	@Column(name = "name", length = 50, nullable = false)
@@ -42,6 +31,7 @@ public class Category extends BaseEntity {
 
 
 	@ManyToOne
+	@JoinColumn(name = "parent_id", nullable = false)
 	private Category parentCategory;
 
 	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, orphanRemoval = true)
