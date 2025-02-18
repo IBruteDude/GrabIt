@@ -35,10 +35,24 @@
 	</properties>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>application*.yml</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+    	            <systemPropertyVariables>
+    	    			<build.timestamp>${maven.build.timestamp}</build.timestamp>
+    	            </systemPropertyVariables>
+    	        </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.liquibase</groupId>
