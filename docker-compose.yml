@@ -13,9 +13,10 @@ services:
       - mysql
     ports:
       - 8443:8443
+      - 80:80
 
   mysql:
-    image: mysql:8.0.33-debian
+    image: mysql:8.0.40-debian
     container_name: grabit-db
     environment:
       - MYSQL_ROOT_PASSWORD=root
