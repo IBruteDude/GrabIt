@@ -19,22 +19,22 @@ import lombok.experimental.SuperBuilder;
 public class User extends BaseEntity {
 
     @Column(name = "username", length = 50, nullable = false, unique = true)
-    private String username;
+    protected String username;
 
     @Column(name = "username", insertable = false, updatable = false)
-    private String email;
+    protected String email;
 
     @Column(name = "password", length = 500, nullable = false)
-    private String password;
+    protected String password;
 
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    protected boolean enabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
-    private Set<Authority> authorities = new HashSet<>();
+    protected Set<Authority> authorities = new HashSet<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Profile profile;
+    protected Profile profile;
 
 }
