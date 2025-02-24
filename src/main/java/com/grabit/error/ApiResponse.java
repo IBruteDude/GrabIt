@@ -1,0 +1,63 @@
+package com.grabit.error;
+
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+public record ApiResponse<T>(
+	boolean success,
+	int status,
+	String message,
+	T data,
+	List<String> errors,
+	String path,
+	ZonedDateTime timestamp
+) {
+
+	public static <T> ApiResponse<T> success(T data, String message) {
+		return success(data, message, 0);
+	}
+
+	public static <T> ApiResponse<T> success(T data, String message, int status) {
+		return new ApiResponse<>(
+			true,
+			status,
+			message,
+			data,
+			null,
+			getRequestPath(),
+			ZonedDateTime.now(ZoneOffset.UTC)
+		);
+	}
+
+	public static <T> ApiResponse<T> error(List<String> errors, String message, int status) {
+		return new ApiResponse<>(
+			false,
+			status,
+			message,
+			null,
+			errors,
+			getRequestPath(),
+			ZonedDateTime.now(ZoneOffset.UTC)
+		);
+	}
+
+	public static <T> ApiResponse<T> error(String error, String message, int status) {
+		return error(List.of(error), message, status);
+	}
+
+	public static <T> ApiResponse<T> error(String error, int status) {
+		return error(error, HttpStatus.valueOf(status).getReasonPhrase(), status);
+	}
+
+	private static String getRequestPath() {
+		ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		if (attrs == null) {
+			throw new IllegalStateException("No request attributes found. This method must be called in the context of an HTTP request.");
+		}
+		return attrs.getRequest().getRequestURI();
+	}
+}
