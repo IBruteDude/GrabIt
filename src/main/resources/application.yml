@@ -12,11 +12,13 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-logging:
-  file:
-    path: logs
-    name: logs/grabit-${build.timestamp}.log
-  logback:
-    rollingpolicy:
-      max-history: 20
-      max-file-size: 100MB
+#logging:
+#  file:
+#    path: logs
+#    name: logs/grabit-${build.timestamp}.log
+#  logback:
+#    rollingpolicy:
+#      max-history: 20
+#      max-file-size: 100MB
+#build:
+#  timestamp: ${maven.build.timestamp}
