@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.grabit.error.exceptions.BaseException;
+import com.grabit.error.exceptions.EntityNotFoundException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,26 @@ public class GlobalExceptionHandler {
         String localizedMessage = messageSource.getMessage("error.unexpected", null, locale);
 
         return ApiResponse.error(localizedMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BaseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<?> handleBaseException(BaseException ex, HttpServletRequest request) {
+		log.error("Domain error: ", ex);
+        Locale locale = request.getLocale();
+        String localizedMessage = messageSource.getMessage(ex.getMessageKey(), ex.getArgs(), locale);
+
+        return ApiResponse.error(localizedMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse<?> handleEntityNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
+		log.error("Entity not found: ", ex);
+        Locale locale = request.getLocale();
+        String localizedMessage = messageSource.getMessage(ex.getMessageKey(), ex.getArgs(), locale);
+
+        return ApiResponse.error(localizedMessage, HttpStatus.NOT_FOUND);
     }
 
 }

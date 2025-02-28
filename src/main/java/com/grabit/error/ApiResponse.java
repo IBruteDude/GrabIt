@@ -18,7 +18,7 @@ public record ApiResponse<T>(
 ) {
 
 	public static <T> ApiResponse<T> success(T data, String message) {
-		return success(data, message, 0);
+		return success(data, message, HttpStatus.OK);
 	}
 
 	public static <T> ApiResponse<T> success(T data, String message, int status) {
@@ -31,6 +31,10 @@ public record ApiResponse<T>(
 			getRequestPath(),
 			ZonedDateTime.now(ZoneOffset.UTC)
 		);
+	}
+
+	public static <T> ApiResponse<T> success(T data, String message, HttpStatus status) {
+		return success(data, message, status.value());
 	}
 
 	public static <T> ApiResponse<T> error(List<String> errors, String message, int status) {
@@ -53,6 +57,10 @@ public record ApiResponse<T>(
 		return error(error, HttpStatus.valueOf(status).getReasonPhrase(), status);
 	}
 
+	public static <T> ApiResponse<T> error(String error, HttpStatus status) {
+		return error(error, status.getReasonPhrase(), status.value());
+	}
+
 	private static String getRequestPath() {
 		ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		if (attrs == null) {
@@ -60,4 +68,5 @@ public record ApiResponse<T>(
 		}
 		return attrs.getRequest().getRequestURI();
 	}
+
 }
