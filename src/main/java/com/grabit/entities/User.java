@@ -27,9 +27,6 @@ public class User extends BaseEntity {
     @Column(name = "password", length = 500, nullable = false)
     protected String password;
 
-    @Column(name = "phone", length = 20, nullable = false)
-    private String phone;
-
     @Column(name = "enabled", nullable = false)
     protected boolean enabled;
 
