@@ -12,13 +12,39 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-#logging:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+          grabit-auth-server:
+            client-name: GrabIt
+            client-id: ${LOCAL_CLIENT_ID}
+            client-secret: ${LOCAL_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: ${REDIRECT_URI}
+            scope: openid, profile, email
+        provider:
+          grabit-auth-server:
+            authorization-uri: ${ISSUER_URI}/oauth2/authorize
+            token-uri: ${ISSUER_URI}/oauth2/token
+            user-info-uri: ${ISSUER_URI}/userinfo
+            user-name-attribute: sub
+
+server:
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-store-password: grabit_pwd
+    key-password: grabit_pwd
+    key-alias: grabit_cert
+# logging:
 #  file:
 #    path: logs
-#    name: logs/grabit-${build.timestamp}.log
+#    name: 'logs/grabit-@build.timestamp@.log'
 #  logback:
 #    rollingpolicy:
 #      max-history: 20
 #      max-file-size: 100MB
-#build:
-#  timestamp: ${maven.build.timestamp}
